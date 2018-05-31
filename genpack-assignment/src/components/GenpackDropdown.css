@@ -1,0 +1,97 @@
+.dropdown-wrapper {
+    display: inline-block;
+}
+
+.ms-Dropdown-container {
+    display: inline-block;
+    padding: 20px;
+}
+
+.ms-Dropdown-title {
+    border-radius: 5px;
+    min-width: 120px;
+}
+
+.btns-wrapper {
+    text-align: center;
+}
+
+.btns-wrapper button {
+    margin: 20px;
+    border-radius: 5px;
+}
+
+.markdown table {
+    white-space: nowrap;
+    overflow-x: auto;
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+th {
+    background: #EDEDED;
+    position: relative;
+}
+th:before {
+    content: " ";
+    position: absolute;
+    top: 17px;
+    left: 5px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #000000;
+}
+
+.markdown td,
+.markdown th {
+    padding: 9px 13px;
+    border: 1px solid #d8d8d8;
+}
+
+.markdown tr:nth-child(2n) td {
+    background-color: #f4f4f4;
+}
+
+.user-profile-wrapper {
+    border: 1px solid #EDEDED;
+    height: 350px;
+    margin-top: 20px;
+}
+
+.user-details-display {
+    clear: both;
+    margin-top: 20px;
+    -webkit-box-shadow: 6px 4px 0 -6px #222;
+    -moz-box-shadow: 6px 4px 0 -6px #222;
+    box-shadow: 6px 4px 0 -6px #222;
+    border-top: 1px solid #EDEDED;
+}
+
+.user-image img {
+    width: 100%;
+}
+
+.user-id-name {
+    border-top: 1px solid #EDEDED;
+}
+
+.get-user-btn,
+.user-name {
+    float: right;
+    margin: 20px;
+}
+
+.userid-input {
+    font-size: 18px;
+}
+
+.userid-input,
+.user-id {
+    float: left;
+    margin: 20px;
+}
+
+.userid-label {
+    display: none;
+}
