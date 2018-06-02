@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { TablePagination } from 'react-pagination-table';
 import { Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
@@ -7,6 +8,7 @@ import './GenpackDropdown.css';
 export default class GenpackDropdown extends Component {
   constructor(props) {
     super(props);
+    
     this.tableData = {
       country: '',
       state: '',
@@ -21,8 +23,9 @@ export default class GenpackDropdown extends Component {
       userImg: '',
       dropdownList: [
         {
-          dropdownLabel: "Country",
+          dropdownLabel: "country",
           dropdownSelect: [
+            { key: 'country', text: 'Country' },
             { key: 'country', text: 'India' },
             { key: 'country', text: 'USA' },
             { key: 'country', text: 'Germany' },
@@ -31,8 +34,9 @@ export default class GenpackDropdown extends Component {
           ]
         },
         {
-          dropdownLabel: "State",
+          dropdownLabel: "state",
           dropdownSelect: [
+            { key: 'state', text: 'State' },
             { key: 'state', text: 'Karnataka' },
             { key: 'state', text: 'Andra' },
             { key: 'state', text: 'Tamilnadu' },
@@ -41,8 +45,9 @@ export default class GenpackDropdown extends Component {
           ]
         },
         {
-          dropdownLabel: "City",
+          dropdownLabel: "city",
           dropdownSelect: [
+            { key: 'city', text: 'City' },
             { key: 'city', text: 'Bangalore' },
             { key: 'city', text: 'DVG' },
             { key: 'city', text: 'Tumkur' },
@@ -51,8 +56,9 @@ export default class GenpackDropdown extends Component {
           ]
         },
         {
-          dropdownLabel: "Area",
+          dropdownLabel: "area",
           dropdownSelect: [
+            { key: 'area', text: 'Area' },
             { key: 'area', text: 'JP Nagar' },
             { key: 'area', text: 'Mejestic' },
             { key: 'area', text: 'Koramangla' },
@@ -64,23 +70,32 @@ export default class GenpackDropdown extends Component {
       selectedData: []
     }
   }
+
+  selectableDropdown() {
+    let dropdownList = this.state.dropdownList;
+    dropdownList.forEach((item,index) => {
+      item.selectedKey = undefined;
+    });
+    this.setState({dropdownList});
+  }
+
   dropdownChange(event) {
-    let currentKey = event.key;
+    this.selectableDropdown();
     switch (event.key) {
       case "country":
-        this.tableData[event.key] = event.text;
+        this.tableData.country = event.text;
         break;
 
       case "state":
-        this.tableData[event.key] = event.text;
+        this.tableData.state = event.text;
         break;
 
       case "city":
-        this.tableData[event.key] = event.text;
+        this.tableData.city = event.text;
         break;
 
       case "area":
-        this.tableData[event.key] = event.text;
+        this.tableData.area = this.tableData.area  + ', ' + event.text;
         break;
 
       default:
@@ -89,27 +104,45 @@ export default class GenpackDropdown extends Component {
   }
 
   addDataToTable() {
-    this.selectedData.push(this.tableData);
-    this.setState({ selectedData: this.selectedData });
+    this.selectedData.push({
+      "country":this.tableData.country,
+     "state":this.tableData.state,
+     "city":this.tableData.city,
+     "area":this.tableData.area
+    });
+    this.setState(
+      { selectedData: this.selectedData,
+        isAddInitiated: true
+      });
   }
 
   clearTable() {
     this.selectedData = [];
     this.setState({ selectedData: [] });
+    this.tableData = {
+      country: '',
+      state: '',
+      city: '',
+      area: ''
+    };
   }
-
   clearDropdownSelect() {
     let dropdownList = this.state.dropdownList;
-
-    this.setState((prevState) => {
-      return {
-        dropdownList: dropdownList
-      }
+    dropdownList.forEach((item,index) => {
+      item.selectedKey = item.dropdownLabel;
     });
+    this.setState({dropdownList});
+    this.tableData = {
+      country: '',
+      state: '',
+      city: '',
+      area: ''
+    };
   }
 
   setUserId(event) {
-    this.setState({ userID: event.currentTarget.value })
+    this.setState({ userID: event.currentTarget.value });
+    return true;
   }
 
   getUserDetails() {
@@ -138,14 +171,20 @@ export default class GenpackDropdown extends Component {
     return (
 
       <div className="dropdown-wrapper">
-        {this.state.dropdownList.map((item) =>
+        <div ref="dropdownSelector" id="container">
+        {this.state.dropdownList.map((item, index) =>
           (<Dropdown
+            selectedKey={(item.selectedKey? item.selectedKey: undefined)}
             onChanged={(e) => this.dropdownChange(e)}
             placeHolder={item.dropdownLabel}
             options={item.dropdownSelect}
+            multiSelect={((index == 3)? 'multiSelect' : undefined)}
+            defaultSelectedKeys={(item.selectedKey? undefined: undefined)}
+            selectedKeys={(item.selectedKey? item.selectedKey: undefined)}
           />
           )
         )}
+        </div>
 
         <div className="btns-wrapper">
           <DefaultButton
